@@ -2,21 +2,26 @@
 # -*- coding: utf-8 -*-
 
 # TODO: handling of errors
+# TODO: print usage etc
 
 # As required per statbureau's ToS, the data comes from:
 # - https://www.statbureau.org/
 
-import http.client, re
+currencies = {  "USD": "united-states",
+                "UAH": "ukraine",
+                "EUR": "eurozone",
+                "CHF": "switzerland",
+                "PLN": "poland" }
+
+import http.client, re, sys
 conn = http.client.HTTPSConnection("www.statbureau.org")
 
 p = re.compile("[0-9.]+")
 
-country = "eurozone"
-value = 100
-start = "2012/12/01"
-end = "2015/12/01"
-
-conn.request("GET", "/calculate-inflation-price-jsonp?country=" + country + "&start=" + start + "&end=" + end + "&amount=" + str(value))
+conn.request("GET", "/calculate-inflation-price-jsonp?country=" + currencies[sys.argv[2]]
+    + "&start=" + sys.argv[3]
+    + "&end=" + sys.argv[4]
+    + "&amount=" + sys.argv[1])
 res = conn.getresponse()
 print(p.search(res.read().decode("utf-8")).group())
 conn.close()

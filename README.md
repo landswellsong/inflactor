@@ -9,6 +9,4 @@ Tool for indexing money investments based on per-currency inflation rates.
 # Currencies so far
 - USD
 - EUR
-- CHF
-- PLN
 - UAH
